@@ -3,13 +3,14 @@ package javaproject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class App {
 
-	static List<String> mainList;
+	private static List<String> mainList;	
 
 	public static boolean stringContainsNumber(String s) { // method that checks if a string contains only digits
 		return Pattern.compile("[0-9]").matcher(s).find();
@@ -21,8 +22,7 @@ public class App {
 			List<String> inputPieces = new ArrayList<String>(Arrays.asList(input.split(" ")));
 			int index = 0;
 			while (index <= (inputPieces.size() - 1)) {
-				String str1 = inputPieces.get(index);
-				System.out.println(str1 + "while first line");
+				String str1 = inputPieces.get(index);				
 				if (str1.length() < 4) {
 					if (str1.contains("0")) {
 						if (str1.length() == 1) {
@@ -190,15 +190,35 @@ public class App {
 		mainList.clear();
 		mainList.addAll(newList);
 	}
+	
+	public static void validationMethod(List<String> list) {
+		int countValid = 0;
+		for(int i = 0; i < list.size(); i++) {
+			String output = list.get(i);
+			if(output.length() == 10 && (output.startsWith("69") || output.startsWith("2"))) {
+				System.out.println(output + "			[phone number: VALID]");
+				countValid++;
+			} else if (output.length() == 14 && (output.startsWith("003069") || output.startsWith("00302"))) {
+				System.out.println(output + "			[phone number: VALID]");
+				countValid++;
+			} else
+				System.out.println(output + "			[phone number: INVALID]");
+		}
+		System.out.println("(" + list.size() + " possible combinations found, " + countValid + " of them valid)");
+	}
+	
+	public static void appRun() {
+		System.out.println("Insert telephone number:");
+		Scanner sc = new Scanner(System.in);
+		String input = sc.nextLine();
+		stringPossibilities(input);
+		validationMethod(mainList);
+		sc.close();
+	}
 
 	public static void main(String[] args) {
 		mainList = new ArrayList<String>();
 		mainList.add("");
-
-		stringPossibilities("69 700 20 6");
-
-		for (int i = 0; i < mainList.size(); i++) {
-			System.out.println(i + ": " + mainList.get(i));
-		}
+		appRun();		
 	}
 }
